@@ -13,7 +13,9 @@ class News extends Model
     {
         return $this->belongsTo('App\Category');
     }
-
+    public function comments(){
+        return $this->hasMany('App\Comment');
+    }
     public function scopeVideos($query)
     {
         return $query->where('type','video');
@@ -46,5 +48,8 @@ class News extends Model
             ->orderBy('news_count','desc')
             ->limit(2)
             ->get();
+    }
+    public function previousPost($news){
+        return $this->with('category')->latest()->limit(3)->get();
     }
 }

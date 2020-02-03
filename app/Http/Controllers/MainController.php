@@ -29,7 +29,7 @@ class MainController extends Controller
         if ($news->sameCategoryVideos($categoryId,$news)){
             $relatedVideos = $news->sameCategoryVideos($categoryId,$news);
         }
-        $topic = $news->load('category');
+        $topic = $news->load('category','comments');
         return view('pages.single-post',compact('topic','relatedVideos'));
     }
 }

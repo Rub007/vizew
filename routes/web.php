@@ -39,4 +39,6 @@ Route::post('/contact', 'ContactController@sendMessage')->name('send.message');
 
 Route::get('/news/{news}', 'MainController@singlePost')->name('single.post');
 
+Route::post('/news/{news}', 'CommentsController@store')->name('add.comment');
+
 Route::get('/home', 'HomeController@index')->name('home');

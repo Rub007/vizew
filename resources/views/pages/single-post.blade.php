@@ -74,7 +74,7 @@
                                 <div class="post-details-thumb mb-50">
                                     @if($topic['type'] == 'image')
                                         <img src="{{asset('images/'.$topic['src'])}}" alt="">
-                                    @elseif($topic['type'] == 'video')
+                                    @elseif($topic['type'] == 'video')single_comment_area
                                         <iframe width="100%" height="400" src="https://www.youtube.com/embed/{{$topic['src']}}"
                                                 frameborder="0"
                                                 allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
@@ -142,105 +142,63 @@
 
                                 <!-- Section Title -->
                                 <div class="section-heading style-2">
-                                    <h4>Comment</h4>
+                                    <h4>Comments</h4>
                                     <div class="line"></div>
                                 </div>
 
                                 <ul>
                                     <!-- Single Comment Area -->
+                                    @foreach($topic['comments'] as $comment)
                                     <li class="single_comment_area">
                                         <!-- Comment Content -->
                                         <div class="comment-content d-flex">
-                                            <!-- Comment Author -->
-                                            <div class="comment-author">
-                                                <img src="img/bg-img/31.jpg" alt="author">
-                                            </div>
                                             <!-- Comment Meta -->
                                             <div class="comment-meta">
-                                                <a href="#" class="comment-date">27 Aug 2019</a>
-                                                <h6>Tomas Mandy</h6>
-                                                <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet,
-                                                    consectetur, adipisci velit, sed quia non numquam eius</p>
-                                                <div class="d-flex align-items-center">
-                                                    <a href="#" class="like">like</a>
-                                                    <a href="#" class="reply">Reply</a>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <ol class="children">
-                                            <li class="single_comment_area">
-                                                <!-- Comment Content -->
-                                                <div class="comment-content d-flex">
-                                                    <!-- Comment Author -->
-                                                    <div class="comment-author">
-                                                        <img src="img/bg-img/32.jpg" alt="author">
-                                                    </div>
-                                                    <!-- Comment Meta -->
-                                                    <div class="comment-meta">
-                                                        <a href="#" class="comment-date">27 Aug 2019</a>
-                                                        <h6>Britney Millner</h6>
-                                                        <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit
-                                                            amet, consectetur, adipisci velit, sed quia non numquam
-                                                            eius</p>
-                                                        <div class="d-flex align-items-center">
-                                                            <a href="#" class="like">like</a>
-                                                            <a href="#" class="reply">Reply</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ol>
-                                    </li>
-
-                                    <!-- Single Comment Area -->
-                                    <li class="single_comment_area">
-                                        <!-- Comment Content -->
-                                        <div class="comment-content d-flex">
-                                            <!-- Comment Author -->
-                                            <div class="comment-author">
-                                                <img src="img/bg-img/33.jpg" alt="author">
-                                            </div>
-                                            <!-- Comment Meta -->
-                                            <div class="comment-meta">
-                                                <a href="#" class="comment-date">27 Aug 2019</a>
-                                                <h6>Simon Downey</h6>
-                                                <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet,
-                                                    consectetur, adipisci velit, sed quia non numquam eius</p>
-                                                <div class="d-flex align-items-center">
-                                                    <a href="#" class="like">like</a>
-                                                    <a href="#" class="reply">Reply</a>
-                                                </div>
+                                                <a href="#" class="comment-date">{{$comment['created_at']}}</a>
+                                                <h6>{{$comment['name']}}</h6>
+                                                <h6>{{$comment['email']}}</h6>
+                                                <p>{{$comment['message']}}</p>
                                             </div>
                                         </div>
                                     </li>
+                                        @endforeach
                                 </ul>
                             </div>
 
                             <!-- Post A Comment Area -->
                             <div class="post-a-comment-area">
+                                @if ($errors->any())
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                            @endif
 
                                 <!-- Section Title -->
                                 <div class="section-heading style-2">
-                                    <h4>Leave a reply</h4>
+                                    <h4>Leave a Comment</h4>
                                     <div class="line"></div>
                                 </div>
 
                                 <!-- Reply Form -->
                                 <div class="contact-form-area">
-                                    <form action="#" method="post">
+                                    <form action="{{route('add.comment',$topic)}}" method="post">
+                                        @csrf
                                         <div class="row">
                                             <div class="col-12 col-lg-6">
                                                 <input type="text" class="form-control" id="name"
-                                                       placeholder="Your Name*">
+                                                       placeholder="Your Name" name="name">
                                             </div>
                                             <div class="col-12 col-lg-6">
                                                 <input type="email" class="form-control" id="email"
-                                                       placeholder="Your Email*">
+                                                       placeholder="Your Email" name="email">
                                             </div>
                                             <div class="col-12">
                                                 <textarea name="message" class="form-control" id="message"
-                                                          placeholder="Message*"></textarea>
+                                                          placeholder="Message"></textarea>
                                             </div>
                                             <div class="col-12">
                                                 <button class="btn vizew-btn mt-30" type="submit">Submit Comment

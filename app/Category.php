@@ -18,7 +18,6 @@ class Category extends Model
         return $this->news()->limit(2);
     }
 
-
     public function scopeVideos($query)
     {
         return $query->where('type', 'video');
