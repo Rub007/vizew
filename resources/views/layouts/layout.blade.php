@@ -109,7 +109,7 @@
                                 <li class="cn-dropdown-item has-down"><a href="#">Categories</a>
                                     <ul class="dropdown">
                                         @foreach($categories as $category)
-                                        <li><a href="">{{$category['name']}}</a></li>
+                                        <li><a href="{{route('user.categories.index',$category)}}">{{$category['name']}}</a></li>
                                         @endforeach
                                     </ul>
                                     <span class="dd-trigger"></span></li>
