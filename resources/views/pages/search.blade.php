@@ -17,6 +17,7 @@
                 </div>
                 <!-- Single Post Area -->
                 @if(!$topics->toArray()['data'])
+                    
                     <div>Your Search Had No Results</div>
                 @else
                 @foreach($topics as $topic)
