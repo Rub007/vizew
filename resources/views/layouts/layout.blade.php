@@ -65,8 +65,8 @@
                         </div>
                         <!-- Top Search Area -->
                         <div class="top-search-area">
-                            <form action="index.html" method="post">
-                                <input type="search" name="top-search" id="topSearch" placeholder="Search...">
+                            <form action="{{route('search')}}" method="get">
+                                <input type="search" name="search" id="topSearch" placeholder="Search...">
                                 <button type="submit" class="btn"><i class="fa fa-search" aria-hidden="true"></i></button>
                             </form>
                         </div>

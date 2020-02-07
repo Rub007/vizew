@@ -23,7 +23,6 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/news/video', 'admin\NewsController@video')->name('admin.news.video')->middleware('auth');
     Route::resource('/news', 'admin\NewsController')->middleware('auth');
     Route::resource('/categories', 'admin\CategoriesController')->middleware('auth');
-
 });
 
 
@@ -54,3 +53,6 @@ Route::post('/news/{news}', 'CommentsController@store')->name('add.comment');
 Route::get('/categories/{category}', 'CategoriesController@index')->name('user.categories.index');
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/search','SearchController@index')->name('search');
+

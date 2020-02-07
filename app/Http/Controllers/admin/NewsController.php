@@ -5,9 +5,8 @@ namespace App\Http\Controllers\admin;
 use App\Category;
 use App\Http\Controllers\Controller;
 use App\News;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class NewsController extends Controller
 {
@@ -62,11 +61,17 @@ class NewsController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate(['name' => 'required|max:255', 'file' => 'required_without:video', 'video' => 'required_without:file']);
+            $request->validate([
+                'name' => 'required|max:255',
+                'file' => 'required_without:video',
+                'video' => 'required_without:file',
+                'description'=> 'required',
+                'select[]' => 'required',
+                ]);
         $topic = new News();
         if ($request->file) {
             $request->validate(['name' => 'required|max:255', 'file' => 'mimes:jpeg,bmp,png|required_without:video']);
-            $mime = '.'.explode('/', $request->file->getMimeType())[1];
+            $mime = '.' . explode('/', $request->file->getMimeType())[1];
             $fileName = time() . '.' . $request->file->getClientOriginalExtension();
             $request->file->move(public_path('images/'), $fileName);
             $topic->src = $fileName;
@@ -77,9 +82,9 @@ class NewsController extends Controller
             $mime = '.jpg';
             $iframe = explode('watch?v=', $request->video)[1];
             $link = explode('&', $iframe)[0];
-            $url = 'https://img.youtube.com/vi/'.$link.'/hqdefault.jpg';
+            $url = 'https://img.youtube.com/vi/' . $link . '/hqdefault.jpg';
             $contents = file_get_contents($url);
-            $name = '/public/previews/'.$link.'.jpg';
+            $name = '/public/previews/' . $link . '.jpg';
             Storage::put($name, $contents);
             $topic->src = $link;
             $topic->type = 'video';
@@ -127,20 +132,20 @@ class NewsController extends Controller
      */
     public function update(News $news, Request $request)
     {
-        $request->validate(['name' => 'required|max:255', 'file' => 'mimes:jpeg,bmp,png', ]);
+        $request->validate(['name' => 'required|max:255', 'file' => 'mimes:jpeg,bmp,png',]);
         if ($request->src) {
-            $mime = '.'.explode('/', $request->src->getMimeType())[1];
+            $mime = '.' . explode('/', $request->src->getMimeType())[1];
             $request->validate(['file' => 'mimes:jpeg,bmp,png']);
             $fileName = time() . '.' . $request->src->getClientOriginalExtension();
             $request->src->move(public_path('images/'), $fileName);
-            if ($news['type'] = 'video'){
-                if (file_exists(Storage::path('/public/previews/'.$news['src'].'.jpg'))){
-                    unlink(Storage::path('/public/previews/'.$news['src'].'.jpg'));
+            if ($news['type'] = 'video') {
+                if (file_exists(Storage::path('/public/previews/' . $news['src'] . '.jpg'))) {
+                    unlink(Storage::path('/public/previews/' . $news['src'] . '.jpg'));
                 }
             }
-            if ($news['type'] = 'image'){
-                $path = public_path('images\\'.$news['src']);
-                if (file_exists($path)){
+            if ($news['type'] = 'image') {
+                $path = public_path('images\\' . $news['src']);
+                if (file_exists($path)) {
                     unlink($path);
                 }
             }
@@ -161,17 +166,17 @@ class NewsController extends Controller
             $request->validate(['video' => 'url']);
             $iframe = explode('watch?v=', $request->video)[1];
             $link = explode('&', $iframe)[0];
-            if ($news['type'] = 'video'){
-                if (file_exists(Storage::path('/public/previews/'.$news['src'].'.jpg'))){
-                    unlink(Storage::path('/public/previews/'.$news['src'].'.jpg'));
+            if ($news['type'] = 'video') {
+                if (file_exists(Storage::path('/public/previews/' . $news['src'] . '.jpg'))) {
+                    unlink(Storage::path('/public/previews/' . $news['src'] . '.jpg'));
                 }
             }
-           if ($news['type'] = 'image'){
-               $path = public_path('images\\'.$news['src']);
-               if (file_exists($path)){
-                   unlink($path);
-               }
-           }
+            if ($news['type'] = 'image') {
+                $path = public_path('images\\' . $news['src']);
+                if (file_exists($path)) {
+                    unlink($path);
+                }
+            }
             $news->update([
                 'name' => $request->name,
                 'description' => $request->description,
@@ -180,14 +185,12 @@ class NewsController extends Controller
                 'mime_type' => '.jpg'
             ]);
             $news->category()->sync($request->select);
-            $url = 'https://img.youtube.com/vi/'.$link.'/hqdefault.jpg';
+            $url = 'https://img.youtube.com/vi/' . $link . '/hqdefault.jpg';
             $contents = file_get_contents($url);
-            $name = '/public/previews/'.$link.'.jpg';
+            $name = '/public/previews/' . $link . '.jpg';
             Storage::put($name, $contents);
             return redirect()->route('news.index');
-        }
-
-        else {
+        } else {
             $news->update([
                 'name' => $request->name,
                 'description' => $request->description,
@@ -205,15 +208,15 @@ class NewsController extends Controller
      */
     public function destroy(News $news)
     {
-        $path = public_path('images\\'.$news['src']);
-        if ($news['type'] = 'image'){
-            if (file_exists($path)){
+        $path = public_path('images\\' . $news['src']);
+        if ($news['type'] = 'image') {
+            if (file_exists($path)) {
                 unlink($path);
             }
         }
-        if ($news['type'] = 'video'){
-            if (file_exists(Storage::path('/public/previews/'.$news['src'].'.jpg'))){
-                unlink(Storage::path('/public/previews/'.$news['src'].'.jpg'));
+        if ($news['type'] = 'video') {
+            if (file_exists(Storage::path('/public/previews/' . $news['src'] . '.jpg'))) {
+                unlink(Storage::path('/public/previews/' . $news['src'] . '.jpg'));
             }
         }
         $news->delete();
