@@ -15,8 +15,10 @@
                                         class="fa fa-play" aria-hidden="true"></i></a>
                                 <!-- Post Content -->
                                 <div class="post-content">
-                                    <a style="background-color: {{$singleVideo->category['color']}}" class="post-cata"
-                                       href="#">{{$singleVideo->category['name']}}</a>
+                                    @foreach($singleVideo['category'] as $category)
+                                    <a style="background-color: {{$category['color']}}" class="post-cata"
+                                       href="#">{{$category['name']}}</a>
+                                    @endforeach
                                     <a href="{{route('single.post',$singleVideo)}}"
                                        class="post-title">{{$singleVideo['name']}}</a>
                                 </div>
@@ -52,8 +54,10 @@
                             </div>
                             <!-- Post Content -->
                             <div class="post-content">
-                                <a href="#" style="background-color: {{$trendingVideo['category']['color']}}"
-                                   class="post-cata cata-sm cata-success">{{$trendingVideo['category']['name']}}</a>
+                                @foreach($trendingVideo['category'] as $category)
+                                <a href="#" style="background-color: {{$category['color']}}"
+                                   class="post-cata cata-sm cata-success">{{$category['name']}}</a>
+                                @endforeach
                                 <a href="{{route('single.post',$trendingVideo)}}"
                                    class="post-title">{{$trendingVideo['name']}}</a>
                             </div>
@@ -89,8 +93,10 @@
 
                                     <!-- Post Content -->
                                     <div class="post-content">
+                                        @foreach($featuredVideo['category'] as $category)
                                         <a href="#" class="post-cata my-category"
-                                           style="background-color: {{$featuredVideo['category']['color']}}">{{$featuredVideo['category']['name']}}</a>
+                                           style="background-color: {{$category['color']}}">{{$category['name']}}</a>
+                                        @endforeach
                                         <a href="{{route('single.post',$featuredVideo)}}"
                                            class="post-title">{{$featuredVideo['name']}}</a>
                                     </div>
@@ -157,8 +163,10 @@
                                 <div class="col-12 col-lg-6">
                                     <!-- Post Content -->
                                     <div class="post-content mt-0">
+                                        @foreach($randomTopic['category'] as $category)
                                         <a href="#" class="post-cata cata-sm cata-success"
-                                           style="background-color:{{$randomTopic['category']['color']}}">{{$randomTopic['category']['name']}}</a>
+                                           style="background-color:{{$category['color']}};">{{$category['name']}}</a>
+                                        @endforeach
                                         <a href="{{route('single.post',$randomTopic)}}"
                                            class="post-title mb-2">{{$randomTopic['name']}}</a>
                                         <div class="post-meta d-flex align-items-center mb-2">
@@ -199,8 +207,11 @@
 
                                 <!-- Post Content -->
                                 <div class="post-content">
+                                    @foreach($singleVideo['category'] as $category)
+
                                     <a href="#" class="post-cata cata-sm cata-success"
-                                       style="background-color: {{$singleVideo['category']['name']}}">{{$singleVideo['category']['name']}}</a>
+                                       style="background-color: {{$category['name']}}">{{$category['name']}}</a>
+                                    @endforeach
                                     <a href="{{route('single.post',$singleVideo)}}"
                                        class="post-title">{{$singleVideo['name']}}</a>
                                 </div>

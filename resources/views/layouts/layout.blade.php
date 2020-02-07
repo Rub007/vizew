@@ -105,10 +105,15 @@
                         <div class="classynav">
                             <ul>
                                 <li><a href="{{route('homeroute')}}">Home</a></li>
-                                <li><a href="{{route('topics')}}">News</a></li>
-                                <li><a href="{{route('topics')}}">Videos</a></li>
+                                <li><a href="{{route('news')}}">News</a></li>
+                                <li class="cn-dropdown-item has-down"><a href="#">Categories</a>
+                                    <ul class="dropdown">
+                                        @foreach($categories as $category)
+                                        <li><a href="">{{$category['name']}}</a></li>
+                                        @endforeach
+                                    </ul>
+                                    <span class="dd-trigger"></span></li>
                                 <li><a href="{{route('contact')}}">Contact</a></li>
-
                             </ul>
                         </div>
                         <!-- Nav End -->

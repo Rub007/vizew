@@ -6,7 +6,7 @@
             <div>
                 @if(session()->has('message'))
                     <div>{{session('message')}}</div>
-                    @endif
+                @endif
             </div>
             <!-- Archive Catagory & View Options -->
             <div class="archive-catagory-view mb-50 d-flex align-items-center justify-content-between">
@@ -28,17 +28,22 @@
                     <div class="col-12 col-md-6">
                         <!-- Post Thumbnail -->
                         @if($topic['type'] == 'image')
-                            <img src="{{asset('/images')}}/{{$topic['src']}}" alt="">
+                            <a href="{{route('news.show',$topic)}}">
+                                <img src="{{asset('/images')}}/{{$topic['src']}}" alt="">
+                            </a>
                         @endif
                         @if($topic['type'] == 'video')
-{{--                            <iframe width="560" height="315" src="https://www.youtube.com/embed/{{$topic['src']}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>--}}
-                            <img src="/storage/previews/{{$topic['src'].'.jpg'}}" alt="">
+                            <a href="{{route('news.show',$topic)}}">
+                              <img src="/storage/previews/{{$topic['src'].'.jpg'}}" alt="">
+                            </a>
                         @endif
                     </div>
                     <div class="col-12 col-md-6">
                         <!-- Post Content -->
                         <div class="post-content mt-0">
-                            <a href="#" class="post-cata cata-sm cata-success" style="background-color: {{$topic['category']['color']}}">{{$topic['category']['name']}}</a>
+                            @foreach($topic['category'] as $category)
+                            <a href="#" class="post-cata cata-sm cata-success" style="background-color: {{$category['color']}}">{{$category['name']}}</a>
+                            @endforeach
                             <a href="single-post.html" class="post-title mb-2">{{$topic['name']}}</a>
                             <div class="post-meta d-flex align-items-center mb-2">
                                 <a href="#" class="post-date">{{$topic['created_at']}}</a>
@@ -53,7 +58,7 @@
                                     <input type="submit" value="Delete">
                                 </form>
                             </th>
-                            <p class="mb-2">{{$topic['description']}}</p>
+                            <div class="mb-2"></div>
                         </div>
                     </div>
                 </div>

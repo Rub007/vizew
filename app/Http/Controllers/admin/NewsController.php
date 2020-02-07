@@ -87,8 +87,8 @@ class NewsController extends Controller
         }
         $topic->name = $request->name;
         $topic->description = $request->description;
-        $topic->category_id = $request->select;
         $topic->save();
+        $topic->category()->attach($request->select);
         return redirect()->back();
     }
 
@@ -148,10 +148,10 @@ class NewsController extends Controller
                 'name' => $request->name,
                 'description' => $request->description,
                 'src' => $fileName,
-                'category_id' => $request->select,
                 'type' => 'image',
                 'mime_type' => $mime,
             ]);
+            $news->category()->sync($request->select);
             if ($request->video) {
                 return redirect()->route('news.index')->with('message', 'Your uploaded photo, so link will not work');
             }
@@ -176,10 +176,10 @@ class NewsController extends Controller
                 'name' => $request->name,
                 'description' => $request->description,
                 'src' => $link,
-                'category_id' => $request->select,
                 'type' => 'video',
                 'mime_type' => '.jpg'
             ]);
+            $news->category()->sync($request->select);
             $url = 'https://img.youtube.com/vi/'.$link.'/hqdefault.jpg';
             $contents = file_get_contents($url);
             $name = '/public/previews/'.$link.'.jpg';
@@ -191,8 +191,8 @@ class NewsController extends Controller
             $news->update([
                 'name' => $request->name,
                 'description' => $request->description,
-                'category_id' => $request->select,
             ]);
+            $news->category()->sync($request->select);
         }
         return redirect()->route('news.index');
     }

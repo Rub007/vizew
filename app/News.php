@@ -11,7 +11,7 @@ class News extends Model
 
     public function category()
     {
-        return $this->belongsTo('App\Category');
+        return $this->belongsToMany('App\Category', 'category_news')->withTimestamps();
     }
     public function comments(){
         return $this->hasMany('App\Comment');
@@ -30,10 +30,7 @@ class News extends Model
     {
         return $this->with('category')->videos()->inRandomOrder()->limit($count)->get();
     }
-    public function sameCategoryVideos($categoryId,$news)
-    {
-        return $this->with('category')->videos()->where('category_id',$categoryId)->where('id','!=',$news['id'])->inRandomOrder()->limit(2)->get();
-    }
+
     public function randomNews()
     {
         return $this->with('category')->inRandomOrder()->limit(4)->get();
@@ -49,7 +46,10 @@ class News extends Model
             ->limit(2)
             ->get();
     }
-    public function previousPost($news){
-        return $this->with('category')->latest()->limit(3)->get();
+    public function previous($news){
+        return $this->with('category')->where('id', '<', $news['id'])->videos()->first();
+    }
+    public function next($news){
+        return $this->with('category')->where('id', '>', $news['id'])->videos()->first();
     }
 }

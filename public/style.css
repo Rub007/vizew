@@ -2008,3 +2008,18 @@ textarea.form-control {
 .my-title{
     font-size: 15px !important;
 }
+.custom-select2>span{
+    width: 400px !important;
+}
+/*.custom-ul{*/
+/*    display: none;*/
+/*    position: absolute;*/
+/*    !*left: 0;*!*/
+/*    top: 100%;*/
+/*}*/
+/*.custom-li{*/
+/* position: relative;*/
+/*}*/
+/*.custom-li .custom-ul{*/
+/*    display: inline;*/
+/*}*/

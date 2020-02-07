@@ -11,6 +11,9 @@ class MainController extends Controller
     public function index(News $news)
     {
         $singleVideo = $news->firstVideo();
+        if (!$singleVideo){
+            return view('errors.no-data');
+        }
         $trendingVideos = $news->videosWithCount(3);
         $featuredVideos = $news->videosWithCount(2);
         $popularCategories = $news->mostPopularCategories();
@@ -25,11 +28,10 @@ class MainController extends Controller
     }
     public function singlePost(News $news)
     {
-        $categoryId = $news['category_id'];
-        if ($news->sameCategoryVideos($categoryId,$news)){
-            $relatedVideos = $news->sameCategoryVideos($categoryId,$news);
+        if ($category = $news->category()->first()){
+            $relateds = $category->news()->videos()->limit(2)->get();
         }
         $topic = $news->load('category','comments');
-        return view('pages.single-post',compact('topic','relatedVideos'));
+        return view('pages.single-post',compact('topic','relateds','category'));
     }
 }

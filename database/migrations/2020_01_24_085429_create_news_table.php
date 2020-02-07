@@ -18,9 +18,9 @@ class CreateNewsTable extends Migration
             $table->string('name');
             $table->text('description');
             $table->string('src');
-            $table->integer('category_id')->unsigned();
+            $table->string('type');
+            $table->string('mime_type');
             $table->timestamps();
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
         });
     }
 

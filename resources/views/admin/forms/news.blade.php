@@ -22,10 +22,13 @@
                     <div class="form-group">
                         <label for="newsdesc">Description</label>
                         <textarea class="form-control" id="newsdesc" rows="3" name="description"></textarea>
+                        <script >
+                            CKEDITOR.replace( 'newsdesc' );
+                        </script>
                     </div>
-                    <div class="form-group">
-                        <label for="selectcat">Example multiple select</label>
-                        <select class="form-control" id="selectcat" name="select">
+                    <div class="form-group custom-select2">
+                        <label for="selectcat">Select categories</label>
+                        <select class="js-example-basic-multiple" name="select[]" multiple="multiple">
                             @foreach($categories as $category)
                                 <option value="{{$category->id}}">{{$category->name}}</option>
                             @endforeach

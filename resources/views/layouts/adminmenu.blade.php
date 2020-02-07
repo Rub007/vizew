@@ -17,6 +17,9 @@
     <!-- Stylesheet -->
     <link rel="stylesheet" href="{{asset('style.css')}}">
 
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+
+    <script src="{{asset('ckeditor/ckeditor.js')}}"></script>
     @yield('css')
 
 </head>
@@ -107,8 +110,16 @@
 <script src="{{ asset('js/bootstrap/bootstrap.min.js') }}"></script>
 <!-- All Plugins js -->
 <script src="{{ asset('js/plugins/plugins.js') }}"></script>
+
+{{--<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>--}}
+
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
 <!-- Active js -->
 <script src="{{ asset('js/active.js') }}"></script>
+
+<script src="{{asset('js/select2.js')}}"></script>
+
 </body>
 
 </html>

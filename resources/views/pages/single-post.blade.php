@@ -4,49 +4,43 @@
 
     <!-- ##### Pager Area Start ##### -->
     <div class="vizew-pager-area">
-        <div class="vizew-pager-prev">
-            <p>PREVIOUS ARTICLE</p>
+        @if($previous)
+            <div class="vizew-pager-prev">
+                <p>PREVIOUS ARTICLE</p>
 
-            <!-- Single Feature Post -->
-            <div class="single-feature-post video-post bg-img pager-article"
-                 style="background-image: url(img/bg-img/15.jpg);">
-                <!-- Post Content -->
-                <div class="post-content">
-                    <a href="#" class="post-cata cata-sm cata-success">Sports</a>
-                    <a href="video-post.html" class="post-title">Searching for the 'angel' who held me on Westminster
-                        Bridge</a>
-                    <div class="post-meta d-flex">
-                        <a href="#"><i class="fa fa-comments-o" aria-hidden="true"></i> 18</a>
-                        <a href="#"><i class="fa fa-eye" aria-hidden="true"></i> 32</a>
-                        <a href="#"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> 24</a>
+                <!-- Single Feature Post -->
+                <div class="single-feature-post video-post bg-img pager-article"
+                     style="background-image: url('/storage/previews/{{$previous['src'].'.jpg'}}');">
+                    <a href="{{route('single.post',$previous)}}" class="btn play-btn"><i class="fa fa-play" aria-hidden="true"></i></a>
+                    <!-- Post Content -->
+                    <div class="post-content">
+                        @foreach($previous['category'] as $category)
+                            <a href="#" class="post-cata cata-sm cata-success">{{$category['name']}}</a>
+                        @endforeach
+                        <a href="{{route('single.post',$previous)}}" class="post-title">{{$previous['name']}}</a>
                     </div>
                 </div>
-                <!-- Video Duration -->
-                <span class="video-duration">11.13</span>
             </div>
-        </div>
+        @endif
+        @if($next)
+                <div class="vizew-pager-next">
+                    <p>NEXT ARTICLE</p>
+                    <!-- Single Feature Post -->
+                    <div class="single-feature-post video-post bg-img pager-article"
+                         style="background-image: url('/storage/previews/{{$next['src'].'.jpg'}}');">
+                        <a href="{{route('single.post',$next)}}" class="btn play-btn"><i class="fa fa-play" aria-hidden="true"></i></a>
 
-        <div class="vizew-pager-next">
-            <p>NEXT ARTICLE</p>
-
-            <!-- Single Feature Post -->
-            <div class="single-feature-post video-post bg-img pager-article"
-                 style="background-image: url(img/bg-img/14.jpg);">
-                <!-- Post Content -->
-                <div class="post-content">
-                    <a href="#" class="post-cata cata-sm cata-business">Business</a>
-                    <a href="video-post.html" class="post-title">Reunification of migrant toddlers, parents should be
-                        completed Thursday</a>
-                    <div class="post-meta d-flex">
-                        <a href="#"><i class="fa fa-comments-o" aria-hidden="true"></i> 25</a>
-                        <a href="#"><i class="fa fa-eye" aria-hidden="true"></i> 25</a>
-                        <a href="#"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> 25</a>
+                        <!-- Post Content -->
+                        <div class="post-content">
+                        @foreach($next['category'] as $category)
+                                <a href="#" class="post-cata cata-sm cata-business">{{$category['name']}}</a>
+                            @endforeach
+                            <a href="{{route('single.post',$next)}}" class="post-title">{{$next['name']}}</a>
+                        </div>
+                        <!-- Video Duration -->
                     </div>
                 </div>
-                <!-- Video Duration -->
-                <span class="video-duration">06.59</span>
-            </div>
-        </div>
+        @endif
     </div>
     <!-- ##### Pager Area End ##### -->
 
@@ -68,17 +62,18 @@
 
                             <!-- Post Content -->
                             <div class="post-content mt-0">
-                                <a href="#" style="background-color: {{$topic['category']['color']}}"
-                                   class="post-cata cata-sm cata-danger">{{$topic['category']['name']}}</a>
+                                <a href="#" style="background-color: {{$category['color']}}"
+                                   class="post-cata cata-sm cata-danger">{{$category['name']}}</a>
                                 <a href="single-post.html" class="post-title mb-2">{{$topic['name']}}</a>
                                 <div class="post-details-thumb mb-50">
                                     @if($topic['type'] == 'image')
                                         <img src="{{asset('images/'.$topic['src'])}}" alt="">
                                     @elseif($topic['type'] == 'video')single_comment_area
-                                        <iframe width="100%" height="400" src="https://www.youtube.com/embed/{{$topic['src']}}"
-                                                frameborder="0"
-                                                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                                                allowfullscreen></iframe>
+                                    <iframe width="100%" height="400"
+                                            src="https://www.youtube.com/embed/{{$topic['src']}}"
+                                            frameborder="0"
+                                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                            allowfullscreen></iframe>
                                     @endif
                                 </div>
                                 <div class="d-flex justify-content-between mb-30">
@@ -92,11 +87,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <p>{{$topic['description']}}</p>
-
-
+                            <div>{!!$topic['description'] !!}</div>
                             <!-- Post Author -->
-
                             <div class="related-post-area mt-5">
                                 <!-- Section Title -->
                                 <div class="section-heading style-2">
@@ -107,32 +99,36 @@
                                 <div class="row">
 
                                     <!-- Single Blog Post -->
-                                    @foreach($relatedVideos as $relatedVideo)
-                                    <div class="col-12 col-md-6">
-                                        <div class="single-post-area mb-50">
-                                            <!-- Post Thumbnail -->
-                                            <div class="post-thumbnail">
-                                                <iframe width="100%" height="400" src="https://www.youtube.com/embed/{{$relatedVideo['src']}}"
-                                                        frameborder="0"
-                                                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                                                        allowfullscreen></iframe>
-                                                <!-- Video Duration -->
-                                                <span class="video-duration">05.03</span>
-                                            </div>
+                                    @foreach($relateds as $related)
+                                        <div class="col-12 col-md-6">
+                                            <div class="single-post-area mb-50">
+                                                <!-- Post Thumbnail -->
+                                                <div class="post-thumbnail">
+                                                    <iframe width="100%" height="400"
+                                                            src="https://www.youtube.com/embed/{{$related['src']}}"
+                                                            frameborder="0"
+                                                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                                            allowfullscreen></iframe>
+                                                    <!-- Video Duration -->
+                                                    <span class="video-duration">05.03</span>
+                                                </div>
 
-                                            <!-- Post Content -->
-                                            <div class="post-content">
-                                                <a href="#" class="post-cata cata-sm cata-success" style="background-color: {{$relatedVideo['category']['color']}}">{{$relatedVideo['category']['name']}}</a>
-                                                <a href="{{route('single.post',$relatedVideo)}}" class="post-title">{{$relatedVideo['name']}}</a>
-                                                <div class="post-meta d-flex">
-                                                    <a href="#"><i class="fa fa-comments-o" aria-hidden="true"></i>
-                                                        22</a>
-                                                    <a href="#"><i class="fa fa-eye" aria-hidden="true"></i> 16</a>
-                                                    <a href="#"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> 15</a>
+                                                <!-- Post Content -->
+                                                <div class="post-content">
+                                                    <a href="#" class="post-cata cata-sm cata-success"
+                                                       style="background-color: {{$category['color']}}">{{$category['name']}}</a>
+                                                    <a href="{{route('single.post',$related)}}"
+                                                       class="post-title">{{$related['name']}}</a>
+                                                    <div class="post-meta d-flex">
+                                                        <a href="#"><i class="fa fa-comments-o" aria-hidden="true"></i>
+                                                            22</a>
+                                                        <a href="#"><i class="fa fa-eye" aria-hidden="true"></i> 16</a>
+                                                        <a href="#"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+                                                            15</a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
                                     @endforeach
                                 </div>
                             </div>
@@ -149,19 +145,19 @@
                                 <ul>
                                     <!-- Single Comment Area -->
                                     @foreach($topic['comments'] as $comment)
-                                    <li class="single_comment_area">
-                                        <!-- Comment Content -->
-                                        <div class="comment-content d-flex">
-                                            <!-- Comment Meta -->
-                                            <div class="comment-meta">
-                                                <a href="#" class="comment-date">{{$comment['created_at']}}</a>
-                                                <h6>{{$comment['name']}}</h6>
-                                                <h6>{{$comment['email']}}</h6>
-                                                <p>{{$comment['message']}}</p>
+                                        <li class="single_comment_area">
+                                            <!-- Comment Content -->
+                                            <div class="comment-content d-flex">
+                                                <!-- Comment Meta -->
+                                                <div class="comment-meta">
+                                                    <a href="#" class="comment-date">{{$comment['created_at']}}</a>
+                                                    <h6>{{$comment['name']}}</h6>
+                                                    <h6>{{$comment['email']}}</h6>
+                                                    <p>{{$comment['message']}}</p>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </li>
-                                        @endforeach
+                                        </li>
+                                    @endforeach
                                 </ul>
                             </div>
 
@@ -177,7 +173,7 @@
                                     </div>
                             @endif
 
-                                <!-- Section Title -->
+                            <!-- Section Title -->
                                 <div class="section-heading style-2">
                                     <h4>Leave a Comment</h4>
                                     <div class="line"></div>
